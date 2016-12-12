@@ -464,12 +464,14 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     user camera
     group camera system inet input graphics
     writepid /dev/cpuset/system-background/tasks
+    disabled
 
 # fingerprint service
 service fingerprintd /system/bin/fingerprintd
     class late_start
     user system
     group system
+    disabled
 
 service qfp-daemon /system/bin/qfp-daemon
     class late_start
@@ -530,6 +532,7 @@ service thermal-engine /system/vendor/bin/thermal-engine
    socket thermal-recv-client stream 0660 system system
    socket thermal-recv-passive-client stream 0666 system system
    group root
+   disabled # comma hax
 
 service time_daemon /system/bin/time_daemon
    class late_start
@@ -662,6 +665,7 @@ service iop /system/bin/iop
     disabled
     socket iop seqpacket 0666 root system
     writepid /dev/cpuset/system-background/tasks
+    disabled # comma hax
 
 service qcomsysd /system/bin/qcom-system-daemon
     class main
@@ -1292,7 +1296,10 @@ service seemp_healthd /system/vendor/bin/seemp_healthd
     user system
     group system
 
-service dhcpcd_eth0 /system/bin/dhcpcd -ABKLG
+#service dhcpcd_eth0 /system/bin/dhcpcd -ABKLG
+
+# not sure what calls this
+service dhcpcd_eth0 /system/bin/ifconfig eth0 192.168.2.11 netmask 255.255.255.0
     class late_start
     disabled
     oneshot
